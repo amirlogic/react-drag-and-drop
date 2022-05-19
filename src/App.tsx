@@ -1,28 +1,45 @@
 /* eslint-disable */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+
 
 function App() {
+
+  const [ listData, setListData ] = useState(["Item 1","Item 2","Item 3"]);
+
+  const [ liveLog, setLiveLog ] = useState("");
+
+  /* const addToLog = (nwtxt:string)=>{
+
+    setLiveLog( liveLog[liveLog.length] )
+  } */
+
   const onBeforeCapture = () => { // useCallback(, []);
+    setLiveLog( "Before Capture" );
     console.log('Before Capture');
   };
   const onBeforeDragStart = () => { // useCallback(, []);
-    console.log('Before Drag start');
+    setLiveLog( "Before Capture" );
+    console.log('Before Capture');
   };
   const onDragStart = () => { // useCallback(, []);
+    setLiveLog( "Drag started" )
     console.log('Drag started');
   };
   const onDragUpdate = () => { // useCallback(, []);
+    setLiveLog( "Drag update" );
     console.log('Drag update');
   };
-  const onDragEnd = () => { // useCallback(, []);
-    console.log('Drag End');
+  const onDragEnd = (result:DropResult) => { // useCallback(, []);
+    setLiveLog( JSON.stringify(result) );
+    console.log('result');
   };
 
   return (
 
+   <>
     <DragDropContext
       onBeforeCapture={onBeforeCapture}
       onBeforeDragStart={onBeforeDragStart}
@@ -36,52 +53,27 @@ function App() {
 
           <div ref={provided.innerRef} className="container mx-auto px-4 py-1.5 space-y-2 my-8 bg-zinc-100 rounded-md shadow" {...provided.droppableProps}>
 
-            <Draggable draggableId="draggable-1" index={0}>
-              {(gprovided, gsnapshot) => (
+            { listData.map( (row,indx) =>{
+              
+              return <Draggable draggableId={`draggable-${indx}`} index={indx}>
+                        {(gprovided, gsnapshot) => (
 
-                <div
-                  ref={gprovided.innerRef}
-                  {...gprovided.draggableProps}
-                  {...gprovided.dragHandleProps}
-                  className="p-6 rounded-sm shadow-sm cursor-move mb-2 bg-zinc-50"
-                >
-                  Item 1
+                          <div
+                            ref={gprovided.innerRef}
+                            {...gprovided.draggableProps}
+                            {...gprovided.dragHandleProps}
+                            className="p-6 rounded-sm shadow-sm cursor-move mb-2 bg-zinc-50"
+                          >
+                            {row}
 
-                </div>
-              )}
-            </Draggable>
+                          </div>
+                        )}
+                      </Draggable>;
 
-            <Draggable draggableId="draggable-2" index={1}>
-              {(gprovided, gsnapshot) => (
-
-                <div
-                  ref={gprovided.innerRef}
-                  {...gprovided.draggableProps}
-                  {...gprovided.dragHandleProps}
-                  className="p-6 rounded-sm shadow-sm cursor-move mb-2 bg-zinc-50"
-                >
-                  Item 2
-
-                </div>
-              )}
-            </Draggable>
-
-            <Draggable draggableId="draggable-3" index={2}>
-              {(gprovided, gsnapshot) => (
-
-                <div
-                  ref={gprovided.innerRef}
-                  {...gprovided.draggableProps}
-                  {...gprovided.dragHandleProps}
-                  className="p-6 rounded-sm shadow-sm cursor-move mb-2 bg-zinc-50"
-                >
-                  Item 3
-
-                </div>
-              )}
-            </Draggable>
+            })}
 
             {provided.placeholder}
+
           </div>
 
         )}
@@ -89,6 +81,9 @@ function App() {
       </Droppable>
 
     </DragDropContext>
+
+    <div>{liveLog}</div>
+   </>
   );
 }
 
