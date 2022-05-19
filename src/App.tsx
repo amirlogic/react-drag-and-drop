@@ -82,7 +82,7 @@ function App() {
 
     </DragDropContext>
 
-    <div>{liveLog}</div>
+    <div className="container mx-auto px-4 py-1.5">{liveLog}</div>
    </>
   );
 }
