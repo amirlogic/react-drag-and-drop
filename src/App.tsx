@@ -40,7 +40,7 @@ function App() {
               {(gprovided, gsnapshot) => (
 
                 <div
-                  ref={provided.innerRef}
+                  ref={gprovided.innerRef}
                   {...gprovided.draggableProps}
                   {...gprovided.dragHandleProps}
                   className="p-6 rounded-sm shadow-sm cursor-move mb-2 bg-zinc-50"
@@ -55,7 +55,7 @@ function App() {
               {(gprovided, gsnapshot) => (
 
                 <div
-                  ref={provided.innerRef}
+                  ref={gprovided.innerRef}
                   {...gprovided.draggableProps}
                   {...gprovided.dragHandleProps}
                   className="p-6 rounded-sm shadow-sm cursor-move mb-2 bg-zinc-50"
@@ -70,7 +70,7 @@ function App() {
               {(gprovided, gsnapshot) => (
 
                 <div
-                  ref={provided.innerRef}
+                  ref={gprovided.innerRef}
                   {...gprovided.draggableProps}
                   {...gprovided.dragHandleProps}
                   className="p-6 rounded-sm shadow-sm cursor-move mb-2 bg-zinc-50"
