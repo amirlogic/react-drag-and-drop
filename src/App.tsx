@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable, DropResult, DragDropContextProps, DraggableDescriptor, DragStart, DragUpdate } from 'react-beautiful-dnd';
 
 
 function App() {
@@ -21,13 +21,13 @@ function App() {
     setDndStatus( "Before Capture" );
     setLiveLog("");
   };
-  const onDragStart = () => { 
-    setDndStatus( "Drag started" );
-    setLiveLog("");
+  const onDragStart = (startobj:DragStart) => { 
+    setDndStatus( "Drag started, start object:" );
+    setLiveLog(JSON.stringify(startobj,null,"\t"));
   };
-  const onDragUpdate = () => { 
-    setDndStatus( "Drag update" );
-    setLiveLog("");
+  const onDragUpdate = (updateobj:DragUpdate) => {
+    setDndStatus( "Drag update, update object:" );
+    setLiveLog(JSON.stringify(updateobj,null,"\t"));
     
   };
   const onDragEnd = (result:DropResult) => {
@@ -84,6 +84,7 @@ function App() {
                             className="p-6 rounded-sm shadow-sm cursor-move mb-2 bg-zinc-50"
                           >
                             {row}
+                            {gsnapshot.isDragging ? " dragging..." : ""}
 
                           </div>
                         )}
@@ -102,7 +103,7 @@ function App() {
     </DragDropContext>
 
     <div className="container mx-auto px-4 py-1.5">{dndStatus}</div>
-    <div className="container mx-auto px-4 py-1.5 font-mono"><pre>{liveLog}</pre></div>
+    <div className="container mx-auto px-4 py-1.5 font-mono text-slate-500"><pre>{liveLog}</pre></div>
    </>
   );
 }
