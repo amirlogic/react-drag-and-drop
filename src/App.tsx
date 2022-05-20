@@ -11,30 +11,49 @@ function App() {
 
   const [ liveLog, setLiveLog ] = useState("");
 
-  /* const addToLog = (nwtxt:string)=>{
+  const [ dndStatus, setDndStatus ] = useState("");
 
-    setLiveLog( liveLog[liveLog.length] )
-  } */
+  const onBeforeCapture = () => { 
+    setDndStatus( "Before Capture" );
+    setLiveLog("");
+  };
+  const onBeforeDragStart = () => { 
+    setDndStatus( "Before Capture" );
+    setLiveLog("");
+  };
+  const onDragStart = () => { 
+    setDndStatus( "Drag started" );
+    setLiveLog("");
+  };
+  const onDragUpdate = () => { 
+    setDndStatus( "Drag update" );
+    setLiveLog("");
+    
+  };
+  const onDragEnd = (result:DropResult) => {
 
-  const onBeforeCapture = () => { // useCallback(, []);
-    setLiveLog( "Before Capture" );
-    console.log('Before Capture');
-  };
-  const onBeforeDragStart = () => { // useCallback(, []);
-    setLiveLog( "Before Capture" );
-    console.log('Before Capture');
-  };
-  const onDragStart = () => { // useCallback(, []);
-    setLiveLog( "Drag started" )
-    console.log('Drag started');
-  };
-  const onDragUpdate = () => { // useCallback(, []);
-    setLiveLog( "Drag update" );
-    console.log('Drag update');
-  };
-  const onDragEnd = (result:DropResult) => { // useCallback(, []);
-    setLiveLog( JSON.stringify(result) );
-    console.log('result');
+    let { source, destination, draggableId } = result;
+
+    setDndStatus( "Drag End, result object:" );
+
+    if(!destination){
+      setDndStatus("destination is not valid");
+      setLiveLog("");
+      return;
+    }
+
+    if(destination.droppableId===source.droppableId 
+      && destination.index === source.index){
+        setDndStatus("no change");
+        setLiveLog("");
+      return;
+    }
+
+    let [draggableText] = listData.splice(source.index,1);
+    listData.splice(destination.index,0,draggableText);
+
+    setLiveLog( JSON.stringify(result,null,"\t") );
+    //console.log(result);
   };
 
   return (
@@ -82,7 +101,8 @@ function App() {
 
     </DragDropContext>
 
-    <div className="container mx-auto px-4 py-1.5">{liveLog}</div>
+    <div className="container mx-auto px-4 py-1.5">{dndStatus}</div>
+    <div className="container mx-auto px-4 py-1.5 font-mono"><pre>{liveLog}</pre></div>
    </>
   );
 }
