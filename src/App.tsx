@@ -84,7 +84,7 @@ function App() {
                             className="p-6 rounded-sm shadow-sm cursor-move mb-2 bg-zinc-50"
                           >
                             {row}
-                            {gsnapshot.isDragging ? " dragging..." : ""}
+                            { gsnapshot.isDragging && <span className="text-green-400"> dragging...</span> }
 
                           </div>
                         )}
